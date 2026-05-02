@@ -1,0 +1,46 @@
+"use client";
+import Header from '@/components/Header';
+import MacTerminalGenerator from '@/components/MacTerminalGenerator';
+import TwitterPostGenerator from '@/components/TwitterPostGenerator';
+import dynamic from 'next/dynamic'
+import { useState } from 'react';
+
+// const DynamicComponent = dynamic(() => import('../components/HeavyComponent'))
+const Twitter2Generator = dynamic(() => import('../components/Twitter2generator'), {
+  ssr: false,
+  loading: () => <p>Loading...</p>,
+});
+
+export default function Home() {
+  const [activeView, setActiveView] = useState("twitter1");
+  
+  // Helper function using a switch statement
+  const renderComponent = () => {
+    switch (activeView) {
+      case "twitter1":
+        return <TwitterPostGenerator />;
+      case "twitter2":
+        return <Twitter2Generator />;
+      case "terminal":
+        return <MacTerminalGenerator />;
+      case "instagram":
+        return <div className="p-10 text-center">Instagram Tool Coming Soon</div>;
+      case "linkedin":
+        return <div className="p-10 text-center">LinkedIn Tool Coming Soon</div>;
+      default:
+        return <TwitterPostGenerator />;
+    }
+  };
+
+  return (
+   <main >
+      <Header currentView={activeView} setView={setActiveView} />
+
+        {/* Call the switch function here */}
+        {renderComponent()}
+    </main>
+  // <main>
+  //   <MacTerminalGenerator />
+  // </main>
+  );
+}
