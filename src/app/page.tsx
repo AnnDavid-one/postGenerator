@@ -1,4 +1,5 @@
 "use client";
+import AttendanceCalculator from '@/components/AttendanceCalculator';
 import Header from '@/components/Header';
 import MacTerminalGenerator from '@/components/MacTerminalGenerator';
 import TwitterPostGenerator from '@/components/TwitterPostGenerator';
@@ -23,8 +24,8 @@ export default function Home() {
         return <Twitter2Generator />;
       case "terminal":
         return <MacTerminalGenerator />;
-      case "instagram":
-        return <div className="p-10 text-center">Instagram Tool Coming Soon</div>;
+      case "AttendanceCalculator":
+        return <AttendanceCalculator />;
       case "linkedin":
         return <div className="p-10 text-center">LinkedIn Tool Coming Soon</div>;
       default:
