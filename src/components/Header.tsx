@@ -14,14 +14,14 @@ const Header: React.FC<HeaderProps> = ({ currentView, setView }) => {
       <Image
         src={pansonee}
         alt="Logo"
-        className="w-30 h-30 rounded-full"
-        width={90}
-        height={90}
+        className="w-20 h-20 rounded-full"
+        width={50}
+        height={50}
       />
-      <nav className="flex gap-4">
+      <nav className="flex gap-1">
         <button
           onClick={() => setView("twitter1")}
-          className={`px-4 py-2 rounded-full text-sm font-semibold transition ${
+          className={`px-2 py-1 rounded-full text-sm font-semibold transition ${
             currentView === "twitter1"
               ? "bg-blue-500 text-white"
               : "text-gray-600 hover:bg-gray-100"
@@ -31,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, setView }) => {
         </button>
         <button
           onClick={() => setView("twitter2")}
-          className={`px-4 py-2 rounded-full text-sm font-semibold transition ${
+          className={`px-2 py-1 rounded-full text-sm font-semibold transition ${
             currentView === "twitter2"
               ? "bg-blue-500 text-white"
               : "text-gray-600 hover:bg-gray-100"
@@ -41,7 +41,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, setView }) => {
         </button>
         <button
           onClick={() => setView("terminal")}
-          className={`px-4 py-2 rounded-full text-sm font-semibold transition ${
+          className={`px-2 py-1 rounded-full text-sm font-semibold transition ${
             currentView === "terminal"
               ? "bg-blue-500 text-white"
               : "text-gray-600 hover:bg-gray-100"
@@ -51,7 +51,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, setView }) => {
         </button>
         <button
           onClick={() => setView("AttendanceCalculator")}
-          className={`px-4 py-2 rounded-full text-sm font-semibold transition ${
+          className={`px-2 py-1 rounded-full text-sm font-semibold transition ${
             currentView === "AttendanceCalculator"
               ? "bg-blue-500 text-white"
               : "text-gray-600 hover:bg-gray-100"
