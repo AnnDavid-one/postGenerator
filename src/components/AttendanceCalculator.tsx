@@ -79,7 +79,7 @@ export default function AttendanceCalculator() {
                 <input
                   type="text"
                   inputMode="numeric"
-                  className="w-full px-3 py-1.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
+                  className="text-gray-900 w-full px-3 py-1.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
                   value={session.value}
                   onChange={(e) => handleSessionChange(session.id, e.target.value)}
                   placeholder="0"
@@ -99,7 +99,7 @@ export default function AttendanceCalculator() {
                 <input
                   type="text"
                   inputMode="numeric"
-                  className="w-full px-3 py-1.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
+                  className="w-full px-3 text-gray-900 py-1.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center"
                   value={session.value}
                   onChange={(e) => handleSessionChange(session.id, e.target.value)}
                   placeholder="0"
@@ -117,7 +117,7 @@ export default function AttendanceCalculator() {
               type="text"
               inputMode="numeric"
               maxLength={2}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="text-gray-900 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="0"
               value={boysCount}
               onChange={(e) => setBoysCount(e.target.value)}
@@ -129,7 +129,7 @@ export default function AttendanceCalculator() {
               type="text"
               inputMode="numeric"
               maxLength={2}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="text-gray-900 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="0"
               value={girlsCount}
               onChange={(e) => setGirlsCount(e.target.value)}
@@ -141,7 +141,7 @@ export default function AttendanceCalculator() {
               type="text"
               inputMode="numeric"
               maxLength={2}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="text-gray-900 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="0"
               value={schoolOpenDays}
               onChange={(e) => setSchoolOpenDays(e.target.value)}
