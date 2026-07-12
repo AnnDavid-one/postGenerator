@@ -3,7 +3,8 @@ import AttendanceCalculator from '@/components/AttendanceCalculator';
 import Header from '@/components/Header';
 import MacTerminalGenerator from '@/components/MacTerminalGenerator';
 import TwitterPostGenerator from '@/components/TwitterPostGenerator';
-import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic';
+import Attendancetracker from '@/components/Attendancetracker';
 import { useState } from 'react';
 
 // const DynamicComponent = dynamic(() => import('../components/HeavyComponent'))
@@ -26,6 +27,8 @@ export default function Home() {
         return <MacTerminalGenerator />;
       case "AttendanceCalculator":
         return <AttendanceCalculator />;
+      case "Attendancetracker":
+        return <Attendancetracker />;
       case "linkedin":
         return <div className="p-10 text-center">LinkedIn Tool Coming Soon</div>;
       default:
