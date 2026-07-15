@@ -22,6 +22,7 @@ const Header: React.FC<HeaderProps> = ({ currentView, setView }) => {
     { id: "terminal", label: "Terminal" },
     { id: "AttendanceCalculator", label: "Attendance" },
     { id: "Attendancetracker", label: "Atrkr" },
+    { id: "Tester", label: "Tester" },
   ];
 
   return (

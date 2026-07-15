@@ -1,49 +1,42 @@
 'use client';
 
-import React, { useState, FC, ChangeEvent } from 'react';
-import { CircleUser, Plus, Trash2 } from 'lucide-react';
-
-// Type Definitions
-interface Student {
-  name: string;
-  attendance: number[];
-}
-
-interface AttendanceTableProps {
-  title: string;
-  data: Student[];
-  weeks: number;
-  half: 'first' | 'second';
-  gender: 'boys' | 'girls';
-  onAddWeek: () => void;
-  onAddStudent: () => void;
-}
+import React, { useState, FC } from 'react';
+import { CircleUser } from 'lucide-react';
+import AttendanceTable, { Student, AttendanceTableProps } from './AttendanceTable';
 
 type Half = 'first' | 'second';
 type Gender = 'boys' | 'girls';
 
+// Helper function to generate unique IDs
+const generateId = (half: Half, gender: Gender, index: number): string => {
+  const prefix = `${half[0]}${gender[0]}`;
+  return `${prefix}-${index}-${Date.now()}`;
+};
+
 const AttendanceTracker: FC = () => {
   // State for Boys - First Half
   const [boysFirstHalf, setBoysFirstHalf] = useState<Student[]>([
-    { name: 'Student 1', attendance: [0, 0, 0, 0, 0, 0] },
+    { id: 'bf-1', name: 'Student 1', attendance: [0, 0, 0, 0, 0, 0] },
   ]);
   const [boysFirstHalfWeeks, setBoysFirstHalfWeeks] = useState<number>(6);
+  const [NoOfTimesSchoolOpened, setNoOfTimesSchoolOpened] = useState(100);
+
 
   // State for Boys - Second Half
   const [boysSecondHalf, setBoysSecondHalf] = useState<Student[]>([
-    { name: 'Student 1', attendance: [0, 0, 0, 0, 0, 0, 0, 0] },
+    { id: 'bs-1', name: 'Student 1', attendance: [0, 0, 0, 0, 0, 0, 0, 0] },
   ]);
   const [boysSecondHalfWeeks, setBoysSecondHalfWeeks] = useState<number>(8);
 
   // State for Girls - First Half
   const [girlsFirstHalf, setGirlsFirstHalf] = useState<Student[]>([
-    { name: 'Student 1', attendance: [0, 0, 0, 0, 0, 0] },
+    { id: 'gf-1', name: 'Student 1', attendance: [0, 0, 0, 0, 0, 0] },
   ]);
   const [girlsFirstHalfWeeks, setGirlsFirstHalfWeeks] = useState<number>(6);
 
   // State for Girls - Second Half
   const [girlsSecondHalf, setGirlsSecondHalf] = useState<Student[]>([
-    { name: 'Student 1', attendance: [0, 0, 0, 0, 0, 0, 0, 0] },
+    { id: 'gs-1', name: 'Student 1', attendance: [0, 0, 0, 0, 0, 0, 0, 0] },
   ]);
   const [girlsSecondHalfWeeks, setGirlsSecondHalfWeeks] = useState<number>(8);
 
@@ -104,6 +97,7 @@ const AttendanceTracker: FC = () => {
     };
 
     const newStudent: Student = {
+      id: generateId(half, gender, getStudentCount()),
       name: `Student ${getStudentCount() + 1}`,
       attendance: Array(getWeeksCount()).fill(0),
     };
@@ -208,118 +202,6 @@ const AttendanceTracker: FC = () => {
     return totals;
   };
 
-  const AttendanceTable: FC<AttendanceTableProps> = ({
-    title,
-    data,
-    weeks,
-    half,
-    gender,
-    onAddWeek,
-    onAddStudent,
-  }) => (
-    <div className="mb-8 p-4 border border-gray-300 rounded-lg bg-gray-50">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-bold text-gray-800">{title}</h3>
-        <div className="flex gap-2">
-          <button
-            onClick={onAddWeek}
-            className="flex items-center gap-1 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
-          >
-            <Plus size={16} /> Add Week
-          </button>
-          <button
-            onClick={onAddStudent}
-            className="flex items-center gap-1 px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 text-sm"
-          >
-            <Plus size={16} /> Add Student
-          </button>
-        </div>
-      </div>
-
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse border border-gray-400">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="border border-gray-400 p-2 text-left font-semibold">S/N</th>
-              <th className="border border-gray-400 p-2 text-left font-semibold">Student Name</th>
-              {Array.from({ length: weeks }).map((_, i: number) => (
-                <th key={i} className="border border-gray-400 p-2 text-center font-semibold text-sm">
-                  <div className="text-xs font-bold text-gray-900">W{i + 1}</div>
-                  <div className="text-xs text-gray-900">Week {i + 1}</div>
-                </th>
-              ))}
-              <th className="border border-gray-400 p-2 text-center font-semibold bg-yellow-100">Total</th>
-              <th className="border border-gray-400 p-2 text-center">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((student: Student, index: number) => (
-              <tr key={index} className="hover:bg-gray-100">
-                <td className="border border-gray-400 p-2 text-center font-bold text-gray-700 bg-gray-100 w-12">
-                  {index + 1}
-                </td>
-                <td className="border border-gray-400 p-2">
-                  <input
-                    type="text"
-                    value={student.name}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                      updateName(index, e.target.value, half, gender)
-                    }
-                    placeholder={`Student ${index + 1}`}
-                    className="w-full px-2 py-1 border border-gray-300 rounded"
-                  />
-                </td>
-                {student.attendance.map((attendance: number, weekIndex: number) => (
-                  <td key={weekIndex} className="border border-gray-400 p-1 text-center relative group">
-                    <input
-                      type="number"
-                      min="0"
-                      value={attendance === 0 ? '' : attendance}
-                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                        updateAttendance(index, weekIndex, e.target.value || '0', half, gender)
-                      }
-                      placeholder=""
-                      className="w-16 px-1 py-1 border border-gray-300 rounded text-center font-semibold focus:outline-none focus:ring-2 focus:ring-blue-400"
-                      title={`Student ${index + 1} - Week ${weekIndex + 1}`}
-                    />
-                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none">
-                      S{index + 1} × W{weekIndex + 1}
-                    </div>
-                  </td>
-                ))}
-                <td className="border border-gray-400 p-2 text-center font-bold text-lg bg-yellow-100">
-                  {calculateRowTotal(student.attendance)}
-                </td>
-                <td className="border border-gray-400 p-2 text-center">
-                  <button
-                    onClick={() => removeStudent(index, half, gender)}
-                    className="text-red-500 hover:text-red-700 font-semibold"
-                    title={`Delete Student ${index + 1}`}
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-            <tr className="bg-blue-100 font-semibold">
-              <td className="border border-gray-400 p-2 text-center">-</td>
-              <td className="border border-gray-400 p-2">Weekly Total</td>
-              {calculateColumnTotal(data).map((total: number, i: number) => (
-                <td key={i} className="border border-gray-400 p-2 text-center font-bold text-blue-700">
-                  {total}
-                </td>
-              ))}
-              <td className="border border-gray-400 p-2 text-center font-bold">
-                {data.reduce((sum: number, student: Student) => sum + calculateRowTotal(student.attendance), 0)}
-              </td>
-              <td className="border border-gray-400 p-2"></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-
   // Calculate grand totals
   const boysTotalFirstHalf: number = boysFirstHalf.reduce(
     (sum: number, s: Student) => sum + calculateRowTotal(s.attendance),
@@ -341,16 +223,28 @@ const AttendanceTracker: FC = () => {
   const boysGrandTotal: number = boysTotalFirstHalf + boysTotalSecondHalf;
   const girlsGrandTotal: number = girlsTotalFirstHalf + girlsTotalSecondHalf;
   const overallGrandTotal: number = boysGrandTotal + girlsGrandTotal;
+  const averageAttendance: number = NoOfTimesSchoolOpened > 0 ? overallGrandTotal / NoOfTimesSchoolOpened : 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-800 mb-2">School Attendance Tracker</h1>
         <p className="text-gray-900 mb-6">End of Session Attendance Calculation By David Aka Hard_Code</p>
-
+             <input
+                            type="text"
+                            value={NoOfTimesSchoolOpened}
+                            onChange={(e) =>
+                              setNoOfTimesSchoolOpened(Number(e.target.value))
+                            }
+                            placeholder={`No Of Times School Opened`}
+                            className="w-1/8   px-2 py-1 border border-gray-300 rounded bg-amber-100 my-12"
+                          />
         {/* BOYS SECTION */}
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-blue-700 mb-4 p-3 bg-blue-100 rounded flex flex-row"><CircleUser size={32} className="text-blue-500" />BOYS</h2>
+          <h2 className="text-2xl font-bold text-blue-700 mb-4 p-3 bg-blue-100 rounded flex flex-row">
+            <CircleUser size={32} className="text-blue-500" />
+            BOYS
+          </h2>
 
           <AttendanceTable
             title="First Half (Boys)"
@@ -360,6 +254,11 @@ const AttendanceTracker: FC = () => {
             gender="boys"
             onAddWeek={() => addWeek('first', 'boys')}
             onAddStudent={() => addStudent('first', 'boys')}
+            onUpdateAttendance={updateAttendance}
+            onUpdateName={updateName}
+            onRemoveStudent={removeStudent}
+            calculateRowTotal={calculateRowTotal}
+            calculateColumnTotal={calculateColumnTotal}
           />
 
           <AttendanceTable
@@ -370,12 +269,19 @@ const AttendanceTracker: FC = () => {
             gender="boys"
             onAddWeek={() => addWeek('second', 'boys')}
             onAddStudent={() => addStudent('second', 'boys')}
+            onUpdateAttendance={updateAttendance}
+            onUpdateName={updateName}
+            onRemoveStudent={removeStudent}
+            calculateRowTotal={calculateRowTotal}
+            calculateColumnTotal={calculateColumnTotal}
           />
         </div>
 
         {/* GIRLS SECTION */}
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-pink-700 mb-4 p-3 bg-pink-100 rounded flex flex-row"><CircleUser size={32} className="text-pink-500" /> GIRLS</h2>
+          <h2 className="text-2xl font-bold text-pink-700 mb-4 p-3 bg-pink-100 rounded flex flex-row">
+            <CircleUser size={32} className="text-pink-500" /> GIRLS
+          </h2>
 
           <AttendanceTable
             title="First Half (Girls)"
@@ -385,6 +291,11 @@ const AttendanceTracker: FC = () => {
             gender="girls"
             onAddWeek={() => addWeek('first', 'girls')}
             onAddStudent={() => addStudent('first', 'girls')}
+            onUpdateAttendance={updateAttendance}
+            onUpdateName={updateName}
+            onRemoveStudent={removeStudent}
+            calculateRowTotal={calculateRowTotal}
+            calculateColumnTotal={calculateColumnTotal}
           />
 
           <AttendanceTable
@@ -395,6 +306,11 @@ const AttendanceTracker: FC = () => {
             gender="girls"
             onAddWeek={() => addWeek('second', 'girls')}
             onAddStudent={() => addStudent('second', 'girls')}
+            onUpdateAttendance={updateAttendance}
+            onUpdateName={updateName}
+            onRemoveStudent={removeStudent}
+            calculateRowTotal={calculateRowTotal}
+            calculateColumnTotal={calculateColumnTotal}
           />
         </div>
 
@@ -438,6 +354,10 @@ const AttendanceTracker: FC = () => {
             <div className="bg-gradient-to-r from-blue-300 to-pink-300 p-4 rounded-lg border-2 border-purple-500">
               <p className="text-sm font-semibold text-gray-800">Grand Total (All Students)</p>
               <p className="text-4xl font-bold text-purple-900">{overallGrandTotal}</p>
+            </div>
+            <div className="bg-gradient-to-r from-blue-300 to-pink-300 p-4 rounded-lg border-2 border-purple-500">
+              <p className="text-sm font-semibold text-gray-800">Average Attendance</p>
+              <p className="text-4xl font-bold text-purple-900">{averageAttendance.toFixed(2)}</p>
             </div>
           </div>
         </div>

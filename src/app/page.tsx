@@ -12,6 +12,10 @@ const Twitter2Generator = dynamic(() => import('../components/Twitter2generator'
   ssr: false,
   loading: () => <p>Loading...</p>,
 });
+const Tester = dynamic(() => import('../components/Tester'), {
+  ssr: false,
+  loading: () => <p>Loading...</p>,
+});
 
 export default function Home() {
   const [activeView, setActiveView] = useState("twitter1");
@@ -29,6 +33,8 @@ export default function Home() {
         return <AttendanceCalculator />;
       case "Attendancetracker":
         return <Attendancetracker />;
+      // case "Tester":
+      //   return <Tester />;
       case "linkedin":
         return <div className="p-10 text-center">LinkedIn Tool Coming Soon</div>;
       default:
